@@ -139,6 +139,9 @@ public final class Notifications {
 	}
 
 	private static void setupViews(RemoteViews rv, Context context, MusicDirectory.Entry song, boolean expanded, boolean playing, boolean remote, boolean isSingleFile, boolean shouldFastForward) {
+		shouldFastForward = false;
+		expanded = true;
+
 		// Use the same text for the ticker and the expanded notification
 		String title = song.getTitle();
 		String arist = song.getArtist();
@@ -169,6 +172,7 @@ public final class Notifications {
 		rv.setTextViewText(R.id.notification_album, album);
 
 		boolean persistent = Util.getPreferences(context).getBoolean(Constants.PREFERENCES_KEY_PERSISTENT_NOTIFICATION, false);
+		persistent = false;
 		if(persistent) {
 			if(expanded) {
 				rv.setImageViewResource(R.id.control_pause, playing ? R.drawable.notification_pause : R.drawable.notification_start);
@@ -194,6 +198,7 @@ public final class Notifications {
 			rv.setImageViewResource(R.id.control_next, R.drawable.notification_fastforward);
 		} else {
 			// Necessary for switching back since it appears to re-use the same layout
+			rv.setImageViewResource(R.id.control_pause, playing ? R.drawable.notification_pause : R.drawable.notification_start);
 			rv.setImageViewResource(R.id.control_previous, R.drawable.notification_backward);
 			rv.setImageViewResource(R.id.control_next, R.drawable.notification_forward);
 		}
